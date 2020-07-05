@@ -4,6 +4,7 @@
 #include <vector>
 #include <complex>
 #include <memory>
+#include <cmath>
 
 // Class that handles rendering an instance of the fractal as a bitmap class
 

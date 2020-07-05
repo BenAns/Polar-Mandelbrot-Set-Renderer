@@ -1,4 +1,5 @@
 #include "renderer.hpp"
+#include <iostream>
 
 // Generates the iterations for each pixel of the fractal, given parameters
 void renderer::generateFractal(int w, int h, double leftTheta, double rightTheta, double topR, double bottomR, uint64_t maxIterations)
@@ -23,7 +24,7 @@ std::shared_ptr<uint32_t[]> renderer::renderBitmap(int w, int h, uint64_t maxIte
 
     for(int i = 0; i < w * h; i++)
     {
-        bitmap[i] = iterateResults[i].iterations == maxIterations ? 0 : 1;
+        bitmap[i] = iterateResults[i].iterations == maxIterations ? 0x000000ff : 0xffffffff;
     }
 
     return bitmap;
@@ -32,11 +33,10 @@ std::shared_ptr<uint32_t[]> renderer::renderBitmap(int w, int h, uint64_t maxIte
 // Maps a pixel onto a complex number given the rendering parameters
 std::complex<double> renderer::mapNum(int x, int y, int w, int h, double leftTheta, double rightTheta, double topR, double bottomR)
 {
-    std::complex<double> z;
-    z.real(leftTheta + ((rightTheta - leftTheta) * x) / w);
-    z.imag(topR + ((bottomR - topR) * y) / h);
+    double theta = leftTheta + ((rightTheta - leftTheta) * x) / w;
+    double r = topR + ((bottomR - topR) * y) / h;
 
-    return z;
+    return std::complex<double>(r * std::cos(theta), r * std::sin(theta));
 }
 
 // Iterates a specific complex number

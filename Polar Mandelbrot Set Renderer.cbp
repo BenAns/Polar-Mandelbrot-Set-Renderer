@@ -31,6 +31,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="main.cpp" />
+		<Unit filename="outputBMP.cpp" />
+		<Unit filename="outputBMP.hpp" />
+		<Unit filename="renderer.cpp" />
+		<Unit filename="renderer.hpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
