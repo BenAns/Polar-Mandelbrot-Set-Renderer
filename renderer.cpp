@@ -18,13 +18,29 @@ void renderer::generateFractal(int w, int h, double leftTheta, double rightTheta
 }
 
 // Exports a generated fractal as bitmap given a palette
-std::shared_ptr<uint32_t[]> renderer::renderBitmap(int w, int h, uint64_t maxIterations)
+std::shared_ptr<uint32_t[]> renderer::renderBitmap(int w, int h, uint64_t maxIterations, std::vector<SDL_Color> palette)
 {
     std::shared_ptr<uint32_t[]> bitmap(new uint32_t[w * h]);
 
     for(int i = 0; i < w * h; i++)
     {
-        bitmap[i] = iterateResults[i].iterations == maxIterations ? 0x000000ff : 0xffffffff;
+        // Gets and sets the colour of the current pixel
+        // bitmap[i] = iterateResults[i].iterations == maxIterations ? 0x000000ff : 0xffffffff;
+        if(iterateResults[i].iterations == maxIterations)
+        {
+            // Sets a pixel in the Mandelbrot set to black
+            bitmap[i] = 0x000000ff;
+        }
+        if(iterateResults[i].iterations < maxIterations)
+        {
+            // Gets a colour value from a palette/interpolation for a pixel outside the Mandelbrot set
+            double colourValue = iterateResults[i].iterations + 1 - std::log2(std::log2(std::abs(iterateResults[i].zEnd)));
+
+            SDL_Color colour1 = palette[static_cast<int>(colourValue) % palette.size()];
+            SDL_Color colour2 = palette[static_cast<int>(colourValue + 1) % palette.size()];
+
+            bitmap[i] = interpolate(colourValue - static_cast<int>(colourValue), colour1, colour2);
+        }
     }
 
     return bitmap;
@@ -58,4 +74,13 @@ renderer::iterateState renderer::generateIterations(std::complex<double> c, uint
     }
 
     return {c, z, i};
+}
+
+uint32_t renderer::interpolate(double weight, SDL_Color colour1, SDL_Color colour2)
+{
+    SDL_Color newColour = {static_cast<uint8_t>(colour1.r + weight * (colour2.r - colour1.r)),
+                            static_cast<uint8_t>(colour1.g + weight * (colour2.g - colour1.g)),
+                            static_cast<uint8_t>(colour1.b + weight * (colour2.b - colour1.b))};
+
+    return (newColour.r << 24) + (newColour.g << 16) + (newColour.b << 8) + 0xff;
 }

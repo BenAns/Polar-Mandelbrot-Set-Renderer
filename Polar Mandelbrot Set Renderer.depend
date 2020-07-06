@@ -1,17 +1,18 @@
 # depslib dependency file v1.0
-1593970434 source:c:\users\ben\desktop\c and c++ projects\polar mandelbrot set renderer\main.cpp
+1594055203 source:c:\users\ben\desktop\c and c++ projects\polar mandelbrot set renderer\main.cpp
 	"renderer.hpp"
 	"outputBMP.hpp"
 
-1593970407 source:c:\users\ben\desktop\c and c++ projects\polar mandelbrot set renderer\renderer.cpp
+1594055576 source:c:\users\ben\desktop\c and c++ projects\polar mandelbrot set renderer\renderer.cpp
 	"renderer.hpp"
 	<iostream>
 
-1593967850 c:\users\ben\desktop\c and c++ projects\polar mandelbrot set renderer\renderer.hpp
+1594054417 c:\users\ben\desktop\c and c++ projects\polar mandelbrot set renderer\renderer.hpp
 	<vector>
 	<complex>
 	<memory>
 	<cmath>
+	<SDL.h>
 
 1593969974 source:c:\users\ben\desktop\c and c++ projects\polar mandelbrot set renderer\outputbmp.cpp
 	"outputBMP.hpp"
